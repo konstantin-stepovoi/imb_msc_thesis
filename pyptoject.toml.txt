@@ -1,0 +1,13 @@
+[tool.pylint]
+
+disable = [
+    C0114, # Missing module docstring
+    C0115, # Missing class docstring
+    C0116, # Missing function or method docstring
+]
+max-line-length = 100
+good-names = [i, j, k, ex, Run, dummy]
+
+[build-system]
+requires = [setuptools=42]
+build-backend = setuptools.build_meta
