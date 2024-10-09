@@ -7,6 +7,13 @@ class Config:
     его можно менять под задачи, а старые значения не потеряются потому что они 
     бэкаются в outputах
     '''
+    #глобольные параметры программы:
+    rotations_per_sample: int = 10000
+    memorytype: str = 'file' #есть ещё 'buffer'
+    domentype: str = 'uni' #есть ещё 'lognorm'
+    genetype = 'uni' #есть ещё 'exp'
+    chromosome_length = 800000000
+    
     
     # Параметры модели распределения длин генов
     y0: float = 2.18
@@ -21,11 +28,13 @@ class Config:
     Max_gene_len: int = 66000
     mean_gene_length: int = 34000
 
-    # Параметры модели хромосомы
-    domen_length: int = 110000 #сейчас домены одинаковые, могу поменять
+    # Параметры модели генов
     number_of_genes: int = 5000
-    rotations_per_sample: int = 10000
     minimal_expression: int = 0
     maximal_expression: int = 50
     
-    #здесь сделаем параметры распределения длин доменов
+    #Параметры модели доменов
+    domen_length: int = 110000 
+    min_dom_length: int = 10000
+    max_dom_length: int = 1000000
+    
