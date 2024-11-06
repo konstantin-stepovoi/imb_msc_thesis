@@ -10,8 +10,8 @@ class Config:
     #глобольные параметры программы:
     rotations_per_sample: int = 10000
     memorytype: str = 'file' #есть ещё 'buffer'
-    domentype: str = 'uni' #есть ещё 'lognorm'
-    genetype = 'uni' #есть ещё 'exp'
+    domentype: str = 'uni' #есть ещё 'lognorm', 'uni'
+    genetype = 'exp' #есть ещё 'exp', 'uni'
     chromosome_length = 800000000
     
     
