@@ -1,6 +1,6 @@
 import numpy as np
 from Gene_containers import Gene, Chromosome
-from parameters import Config
+from parameters import Config, glob_config
 config = Config()
 '''
 этот файл принимает хромосому и отдаёт массив доменов,
@@ -26,18 +26,22 @@ def add_array(array_of_arrays: np.ndarray, index: int, new_array: np.ndarray):
 def Sort_to_domens(chromosome: Chromosome, domlen: int) -> np.ndarray:
     number_of_domens = (chromosome[-1].end_point // domlen) + 1
     arr_of_domens = create_empty_object_array(number_of_domens)
+    
+    gap_size = config.gapsizes[config.cur_gs_index] # Получаем текущий размер гэпа
 
     domlens_r = []
     domlens_l = []
     for n in range(number_of_domens):
         if config.domentype == 'uni':
-            domlens_r.append(domlen * (n + 1))
-            domlens_l.append(domlen * n)
+            domlens_r.append((domlen + gap_size)*n + domlen)
+            domlens_l.append((domlen * n) + gap_size)
         elif config.domentype == 'lognorm':
             generated_length = generate_lognormal_value(median=config.domen_length,
                                                          lower_bound=config.min_dom_length, upper_bound=config.max_dom_length)
-            domlens_r.append(generated_length + (domlens_l[-1] if domlens_l else 0))  # Устанавливаем правую границу
-            domlens_l.append(domlens_r[-1] - generated_length)  # Устанавливаем левую границу
+            start_point = (domlens_r[-1] if domlens_r else 0) + gap_size  # Начало домена с учетом предыдущей правой границы и гэпа
+            end_point = start_point + generated_length  # Конец домена
+            domlens_l.append(start_point)
+            domlens_r.append(end_point)
         else:
             raise ValueError("Invalid type: choose 'uni' or 'lognorm'")
     

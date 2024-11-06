@@ -9,10 +9,10 @@ class Config:
     '''
     #глобольные параметры программы:
     rotations_per_sample: int = 10000
-    memorytype: str = 'file' #есть ещё 'buffer'
-    domentype: str = 'uni' #есть ещё 'lognorm', 'uni'
+    memorytype: str = 'buffer' #есть ещё 'file'
+    domentype: str = 'lognorm' #есть ещё 'lognorm', 'uni'
     genetype = 'exp' #есть ещё 'exp', 'uni'
-    chromosome_length = 800000000
+    chromosome_length = 800000 #800000000
     
     
     # Параметры модели распределения длин генов
@@ -37,4 +37,12 @@ class Config:
     domen_length: int = 110000 
     min_dom_length: int = 10000
     max_dom_length: int = 1000000
-    
+
+    #Параметры гэпов между доменами (примерный размер изолирующих элементов)
+    gapsizes = [0, 1000, 5000, 10000, 50000, 100000, 500000, 1000000, 5000000, 10000000]
+
+    # Текущий индекс gap
+    cur_gs_index: int = 0
+
+# Создаём глобальный экземпляр конфигурации
+glob_config = Config()

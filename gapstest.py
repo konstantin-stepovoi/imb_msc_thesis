@@ -1,19 +1,15 @@
-#!/usr/bin/python3
-# Импорты
 # Interface.py
 import numpy as np
-import random, time, multiprocessing
-from typing import List
+import random
+import time
+import multiprocessing
 from datetime import datetime
 import Modeler
-from parameters import Config
+from parameters import Config, glob_config
 from MathCore import one_chromosome_rework
 from Parser import load_real_data  # Предположим, что этот модуль будет позже написан
-'''
-это просто надстройка, которая спрашивает у нас, что надо сделать и 
-пишет результаты в файл
-'''
-config = Config()
+
+config = Config()  # Глобальная конфигурация
 generated_data = ''
 
 def append_number_to_file(number: float, file_path: str):
@@ -46,15 +42,14 @@ def worker_func(args):
     random.seed(seed)
     if config.memorytype == 'buffer':
         chromosome = Modeler.Chromosome_generator(config.number_of_genes)
-        z = one_chromosome_rework(chromosome = chromosome)
+        z = one_chromosome_rework(chromosome=chromosome)
     elif config.memorytype == 'file':
-        z = one_chromosome_rework(file_name = generated_data, chromnum = j)
+        z = one_chromosome_rework(file_name=generated_data, chromnum=j)
     else:
         raise ValueError('unproper data in parametres file')
     append_number_to_file(z, file_path)
     print(f'Process {j} completed with z = {z}')
     return z
-
 
 def run_in_processes_with_writer(num_tasks: int, file_path: str, config):
     """
@@ -68,24 +63,27 @@ def run_in_processes_with_writer(num_tasks: int, file_path: str, config):
     if config.memorytype == 'buffer':
         pass
     elif config.memorytype == 'file':
-        generated_data = Modeler.Generate_Chromosome_f(number_chroms = num_tasks, chrom_length = config.chromosome_length)
+        generated_data = Modeler.Generate_Chromosome_f(number_chroms=num_tasks, chrom_length=config.chromosome_length)
     with multiprocessing.Pool() as pool:
         results = pool.map(worker_func, args)
     print(f'All processes completed. Made {num_tasks} samples')
     return results
 
-
 if __name__ == '__main__':
     config = Config()
     multiprocessing.freeze_support()
-    #timestamp = datetime.now().strftime('%y_%m_%d_%H_%M_%S') 
-    file_path = f'out{timestamp}.txt'  # Убрано слово "output" из имени файла
-    num_tasks = 2000                                                                    #int(input('Start N: '))
-    test_type = input('Choose test type (model/real, default is model): ') or 'model'  
-    if test_type == 'model':
-        pass  # Оставляем пустым, так как мы не используем arr_of_domens здесь
-    elif test_type == 'real':
-        # Предполагается, что вы реализуете метод load_real_data для загрузки реальных данных
-        arr_of_domens = load_real_data()
-    write_parameters_to_file(file_path, config)
-    results = run_in_processes_with_writer(num_tasks, file_path, config)
+    num_tasks = 2000  # Количество задач на каждую итерацию
+
+    for i in range(len(glob_config.gapsizes)):
+        glob_config.cur_gs_index = i  # Обновляем глобальный индекс гэпа для текущей итерации
+        file_path = f'gaptest_{glob_config.cur_gs_index}.txt'  # Имя файла для текущего теста
+        print(f"Starting test with gap size index {glob_config.cur_gs_index}, file: {file_path}")
+        
+        # Записываем параметры в файл
+        write_parameters_to_file(file_path, config)
+        
+        # Запускаем процессы и записываем результаты в файл
+        results = run_in_processes_with_writer(num_tasks, file_path, glob_config)
+        
+        # Инкремент глобального индекса для следующего теста
+        print(f"Test with gap size index {glob_config.cur_gs_index} completed.")
