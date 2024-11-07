@@ -12,7 +12,7 @@ class Config:
     memorytype: str = 'buffer' #есть ещё 'file'
     domentype: str = 'lognorm' #есть ещё 'lognorm', 'uni'
     genetype = 'exp' #есть ещё 'exp', 'uni'
-    chromosome_length = 800000 #800000000
+    chromosome_length = 800000000
     
     
     # Параметры модели распределения длин генов
