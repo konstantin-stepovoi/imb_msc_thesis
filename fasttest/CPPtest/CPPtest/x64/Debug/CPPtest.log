@@ -1,0 +1,4 @@
+﻿  CPPtest.cpp
+C:\Users\stepo\Desktop\Kravi\fasttest\CPPtest\CPPtest\CPPtest.cpp(150,77): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\stepo\Desktop\Kravi\fasttest\CPPtest\CPPtest\CPPtest.cpp(157,55): warning C4566: character represented by universal-character-name '\u0438' cannot be represented in the current code page (1252)
+  CPPtest.vcxproj -> C:\Users\stepo\Desktop\Kravi\fasttest\CPPtest\x64\Debug\CPPtest.exe

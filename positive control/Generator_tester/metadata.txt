@@ -1,0 +1,2 @@
+file_num	map_type	percentage	rotations	
+5	2	0.05	5
