@@ -28,15 +28,15 @@ Illustration of how random and non-random domains can appear within a single chr
 ![Compare the regions there](pictures/Domains.png)
 
 
-##Violin Plot of Results
+## Violin Plot of Results
 How the program outputs results considering noise and correlation of gene expression:
 ![Green - random regions, orange - Domains](pictures/Violine.png)
 
-##Sliding Window Predictions
+## Sliding Window Predictions
 Using a sliding-window approach, the program predicts where domain structures are likely located on the chromosome:
-![Line represents the prediction, while bars are real domains](pictures/comparason.png)
+![Line represents the prediction, while bars are real domains](pictures/Comparason.png)
 
-##Key Features
+## Key Features
 
 - Genome-wide analysis of coordinated expression
 - Configurable statistical parameters and iteration counts
@@ -49,6 +49,6 @@ Using a sliding-window approach, the program predicts where domain structures ar
 - NumPy, SciPy, Pandas, Matplotlib, Seaborn (for visualization)
 - Standard Python libraries (abc, typing, dataclasses)
 
-Notes
+## Notes
 
 This project forms the basis for both research applications and potential deployment as an interactive online tool, where researchers can input their data and explore domain predictions.
