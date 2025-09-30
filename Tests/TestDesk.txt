@@ -1,0 +1,5 @@
+In this folder, I will collect the results of testing the algorithm for:
+- statistical stability
+- reproducibility
+- linearity
+- dependence of the rate on chromosome length
