@@ -43,7 +43,7 @@ Using a sliding-window approach, the program predicts where domain structures ar
 - Scalable to large datasets
 - Output in user-friendly formats with visualization-ready data
 
-##Requirements
+## Requirements
 
 - Python 3.10+
 - NumPy, SciPy, Pandas, Matplotlib, Seaborn (for visualization)
