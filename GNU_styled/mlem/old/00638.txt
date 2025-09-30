@@ -1,2 +1,0 @@
-z_crit	mu_orig	d_orig	mu_hor	d_hor	mu_vert	d_vert
-nan	63.70076391181162	1253.226020759044	nan	nan	64.63379592535645	1256.3279190074468
