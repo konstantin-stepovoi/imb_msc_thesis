@@ -1,47 +1,42 @@
+#!/usr/bin/python3
 import os
-import argparse
-from JFL3 import one_chromosome_rework_new, process_bed_files  # Импортируем вашу функцию из JFL.py
+from Gene_rotor_matematics import run_with_config, process_bed_files
+import random
+import time
+import numpy as np
 
-def process_files(name1, name2, iterations = 50) -> None:
-    """
-    Обрабатывает одну пару файлов с заданным количеством итераций.
-    """
+def process_files(name1, name2, iterations, result_dir, mapper_method) -> None:
     q = int(name1.split('.')[1])
-    try:
-        # Получаем Domens и Genes с помощью функции из JFL.py
-        Domens, Genes, expressions = process_bed_files(name2, name1)
-        print('Splitted files')
-        print(f'Domens: {len(Domens)}, {type(Domens), type(Domens[0])}')
-        print(f'Genes: {len(Genes)}, {type(Genes), type(Genes[0])}')
-        print(f'expresions: {len(expressions)}, {type(expressions), type(expressions[0])}')
+    Domens, Genes, expressions = process_bed_files(name2, name1)
+    
+    # Запускаем через обёртку с выбранным методом
+    results = run_with_config(Domens, Genes, expressions, iterations, mapper_method=mapper_method)
 
-        # Запускаем основную обработку
-        with open(f"milliontest_1K/{q:05d}.txt", "a") as result_file:
-            result_file.write("z_crit\tmu_orig\td_orig\tmu_hor\td_hor\tmu_vert\td_vert\n")
-            for _ in range(30): #кол - во повторов задаётся тута
-                # Обороты задать не забудь!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                results = one_chromosome_rework_new(Domens, Genes, expressions, 50) #Обороты задаются вот тута!!!
-                result_file.write("\t".join(map(str, results)) + "\n")
-        print(f'Processed file pair {q}')
-    except Exception as e:
-        print(f"Error processing {name1}: {e}")
+    if not os.path.exists(result_dir):
+        os.makedirs(result_dir)
+
+    result_file_path = os.path.join(result_dir, f"{q:05d}.txt")
+    with open(result_file_path, "w") as result_file:
+        result_file.write("z_crit\tmu_orig\td_orig\tmu_hor\td_hor\tresult\tcheckstat\n")
+        result_file.write("\t".join(map(str, results)) + "\n")
+    print(f'Processed file pair {q}')
+
 
 def main():
-    """
-    Главная функция для чтения аргументов и запуска обработки.
-    """
-    parser = argparse.ArgumentParser(description="Process one pair of files.")
-    parser.add_argument("genes_file", help="Path to the genes file")
-    parser.add_argument("domains_file", help="Path to the domains file")
-    parser.add_argument("iterations", type=int, help="Number of iterations")
-    args = parser.parse_args()
+    name1 = input('Genes_file_path: ').strip()
+    name2 = input('Domains_file_path: ').strip()
+    iterations = int(input('number_iterations: ').strip())
+    result_dir = input('result_dir: ').strip()
+    mapper_method = input('mapper_method: ').strip()
+    process_files(name1, name2, iterations, result_dir, mapper_method)
 
-    # Создаём папку, если её нет
-    if not os.path.exists("milliontest_1K"):
-        os.makedirs("milliontest_1K")
-
-    # Обрабатываем файлы
-    process_files(args.genes_file, args.domains_file, args.iterations)
-
+def temp():
+    name1 = input('Genes_file_path: ').strip()
+    name2 = input('Domains_file_path: ').strip()
+    iterations = int(input('number_iterations: ').strip())
+    result_dir = input('result_dir: ').strip()
+    mapper_method = input('mapper_method: ').strip()
+    process_files(name1, name2, iterations, result_dir, mapper_method)
+    
 if __name__ == "__main__":
     main()
